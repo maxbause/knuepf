@@ -1,0 +1,14 @@
+{
+  "eslint.workingDirectories": [
+    "./frontend"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+  },
+  "cSpell.words": [
+    "knuepf"
+  ],
+  "editor.formatOnSave": true,
+  "ruby.rubocop.executePath": "",
+  "ruby.format": "rubocop",
+}

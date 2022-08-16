@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "Vue.volar",
+    "streetsidesoftware.code-spell-checker",
+    "rebornix.ruby",
+    "ms-azuretools.vscode-docker"
+  ]
+}

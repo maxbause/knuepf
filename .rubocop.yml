@@ -1,0 +1,11 @@
+require:
+  - rubocop-rails
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'script/**/*'
+    - 'frontend/**/*'
+    - 'bin/**/*'
+    - 'db/schema.rb'
+Documentation:
+  Enabled: false
