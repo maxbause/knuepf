@@ -12,6 +12,17 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     semi: ['error', 'never'],
+    'consistent-return': 'off',
+    'vuejs-accessibility/label-has-for': [2, {
+      required: {
+        every: ['id'],
+      },
+    }],
+    'max-len': ['error', 145],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
+    'import/no-cycle': 'off',
+    'no-underscore-dangle': 'off',
   },
 
   overrides: [

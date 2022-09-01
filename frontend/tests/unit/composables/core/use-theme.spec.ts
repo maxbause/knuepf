@@ -1,5 +1,5 @@
 import withSetup from '../../test-utils'
-import useTheme from '../../../../src/composables/core/use-theme'
+import useTheme from '../../../../src/core/composables/use-theme'
 
 describe('useTheme', () => {
   afterEach(() => {

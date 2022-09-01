@@ -1,3 +1,5 @@
+import authenticateGuard from '@/core/routing/authenticate-guard'
+import { provide } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/home-view.vue'
 
@@ -8,18 +10,31 @@ const routes = [
     component: HomeView,
   },
   {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/login-view.vue'),
+  },
+  {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/about-view.vue'),
+    component: () => import('../views/about-view.vue'),
   },
 ]
 
 const router = createRouter({
   history: createWebHistory('/'),
   routes,
+})
+
+router.beforeEach(async (toRoute, fromRoute) => {
+  try {
+    const response = await authenticateGuard(toRoute, fromRoute)
+    if (response.action === 'redirect') {
+      return response.redirectTo
+    }
+  } catch (error) {
+    return { name: 'login' }
+  }
 })
 
 export default router
