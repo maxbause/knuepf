@@ -6,6 +6,7 @@
     "source.fixAll.eslint": true,
   },
   "cSpell.words": [
+    "JSONAPI",
     "knuepf"
   ],
   "editor.formatOnSave": true,
