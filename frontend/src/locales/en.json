@@ -1,0 +1,23 @@
+{
+  "error": {
+    "parsingError": {
+      "unexpected": "An unexpected parsing error happened. Sorry 😵‍💫"
+    },
+    "api": {
+      "unexpected": "An unexpected error happened. Sorry 😵‍💫",
+      "unauthorized": "You are not authorized to perform this action.",
+      "banned": "You are currently banned and cannot log in."
+    }
+  },
+  "views": {
+    "login": {
+      "header": "Log in to your Knuepf dashboard",
+      "loginButton": "Login",
+      "invalidCredentials": "Whoops, that login doesn't work.",
+      "form": {
+        "username": "Username",
+        "password": "Password"
+      }
+    }
+  }
+}

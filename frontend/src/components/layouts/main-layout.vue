@@ -2,7 +2,7 @@
 import { watchEffect } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
-import useTheme from '../../composables/core/use-theme'
+import useTheme from '../../core/composables/use-theme'
 
 const theme = useTheme()
 

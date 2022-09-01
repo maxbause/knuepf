@@ -36,3 +36,4 @@
 public/frontend/*
 !public/frontend/
 !public/frontend/.keep
+!public/frontend/index.html

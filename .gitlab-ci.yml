@@ -1,0 +1,77 @@
+variables:
+  CI_NODE_IMAGE: node:17.9.1
+  CI_RUBY_IMAGE: ruby:2.7.5
+
+stages:
+  - audit
+  - lint
+  - test
+
+audit npm:
+  stage: audit
+  image: ${CI_NODE_IMAGE}
+  script:
+    - cd frontend
+    - npx audit-ci@^6 --config ./audit-ci.jsonc
+  except:
+    - tags
+
+audit ruby:
+  stage: audit
+  image: ${CI_RUBY_IMAGE}
+  before_script:
+    - bundle install
+  script:
+    - bundle exec bundle-audit
+  except:
+    - tags
+
+lint npm:
+  stage: lint
+  image: ${CI_NODE_IMAGE}
+  before_script:
+    - cd frontend
+    - npm install
+  script:
+    - npm run lint
+  dependencies:
+    - audit npm
+  except:
+    - tags
+
+lint ruby:
+  stage: lint
+  image: ${CI_RUBY_IMAGE}
+  before_script:
+    - bundle install
+  script:
+    - bundle exec rubocop
+  dependencies:
+    - audit ruby
+  except:
+    - tags
+
+test npm:
+  stage: test
+  image: ${CI_NODE_IMAGE}
+  before_script:
+    - cd frontend
+    - npm install
+  script:
+    - npm run test:unit
+  dependencies:
+    - lint npm
+  except:
+    - tags
+
+test ruby:
+  stage: test
+  image: ${CI_RUBY_IMAGE}
+  before_script:
+    - bundle install
+  script:
+    - bundle exec rspec
+  dependencies:
+    - lint ruby
+  except:
+    - tags

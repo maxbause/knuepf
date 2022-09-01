@@ -9,7 +9,15 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get '/', to: 'hello#show'
+
+      resources :users, only: [:create]
+      get '/users/me', to: 'users#show'
+      post '/users/jwt', to: 'users#create_jwt'
+      delete '/users/jwt', to: 'users#delete_jwt'
+      patch '/users/password', to: 'users#update_password'
     end
+
+    get '*path', to: proc { [404, {}, ['']] }
   end
 
   get '/', to: 'frontend#show', via: [:get]
