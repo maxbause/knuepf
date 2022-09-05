@@ -1,7 +1,7 @@
 // test-utils.js
 import { App, createApp } from 'vue'
 
-function withSetup<T>(composable: Function) {
+function withSetupUtil<T>(composable: Function) {
   let result
   const app = createApp({
     setup() {
@@ -16,4 +16,4 @@ function withSetup<T>(composable: Function) {
   return [result as unknown, app] as [T, App<Element>]
 }
 
-export default withSetup
+export default withSetupUtil

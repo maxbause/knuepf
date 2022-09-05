@@ -1,4 +1,4 @@
-import withSetup from '../../test-utils'
+import withSetupUtil from '../../utils/with-setup-util'
 import useTheme from '../../../../src/core/composables/use-theme'
 
 describe('useTheme', () => {
@@ -9,7 +9,7 @@ describe('useTheme', () => {
 
   it('sets default theme color to "light" and saves it to local storage', () => {
     const setItemSpy = jest.spyOn(Storage.prototype, 'setItem')
-    const [_, app] = withSetup(useTheme)
+    const [_, app] = withSetupUtil(useTheme)
 
     expect(setItemSpy).toHaveBeenCalledTimes(1)
     expect(setItemSpy).toHaveBeenCalledWith('themeColor', 'light')
@@ -18,7 +18,7 @@ describe('useTheme', () => {
 
   it('sets theme color after calling setThemeColor() and saves it to local storage', () => {
     const setItemSpy = jest.spyOn(Storage.prototype, 'setItem')
-    const [result, app] = withSetup<ReturnType<typeof useTheme>>(useTheme)
+    const [result, app] = withSetupUtil<ReturnType<typeof useTheme>>(useTheme)
 
     result.setThemeColor('dark')
     expect(setItemSpy).toHaveBeenCalledTimes(2)
