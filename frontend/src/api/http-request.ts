@@ -1,5 +1,5 @@
 import { merge, camelCase, mapKeys } from 'lodash'
-import Cookie from 'js-cookie'
+import Cookies from 'js-cookie'
 import User from '@/core/models/user'
 import Jwt from '@/core/models/jwt'
 import ErrorParser from '@/core/errors/error-parser'
@@ -32,7 +32,7 @@ const request = async <ProcessedEntityType>(path: string, props: RequestInit | u
     },
   }
 
-  const jwt = Cookie.get('knuepf-user-jwt')
+  const jwt = Cookies.get('knuepf-user-jwt')
 
   if (jwt) {
     (propsWithAuthenticationHeader.headers as any).token = jwt
