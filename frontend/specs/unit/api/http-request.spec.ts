@@ -1,4 +1,5 @@
 import httpRequest from '@/api/http-request'
+import useJwt from '@/core/composables/authentication/use-jwt'
 import CombinedApiError from '@/core/errors/combined-api-error'
 import User, { Roles } from '@/core/models/user'
 import Cookies from 'js-cookie'
@@ -7,56 +8,71 @@ import jsonApiUtil from '../utils/json-api-util'
 describe('httpRequest', () => {
   describe('http methods', () => {
     it('to add jwt as token header to every request if present', async () => {
-      Cookies.set('knuepf-user-jwt', 'super-secret-jwt')
+      useJwt().setJwt('super-secret-jwt')
+      const callTrigger = jest.fn()
       fetchMock.mockResponseOnce(async (req) => {
         expect(req.headers.get('token')).toEqual('super-secret-jwt')
+        callTrigger()
         return ''
       })
 
       await httpRequest.get('/')
+      expect(callTrigger).toHaveBeenCalledTimes(1)
     })
 
     describe('.get', () => {
       it('to send a GET request', async () => {
+        const callTrigger = jest.fn()
         fetchMock.mockResponseOnce(async (req) => {
           expect(req.method).toEqual('GET')
+          callTrigger()
           return ''
         })
 
         await httpRequest.get('/')
+        expect(callTrigger).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('.post', () => {
       it('to send a POST request', async () => {
+        const callTrigger = jest.fn()
         fetchMock.mockResponseOnce(async (req) => {
           expect(req.method).toEqual('POST')
+          callTrigger()
           return ''
         })
 
         await httpRequest.post('/', {})
+        expect(callTrigger).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('.patch', () => {
       it('to send a PATCH request', async () => {
+        const callTrigger = jest.fn()
         fetchMock.mockResponseOnce(async (req) => {
           expect(req.method).toEqual('PATCH')
+          callTrigger()
           return ''
         })
 
         await httpRequest.patch('/', {})
+        expect(callTrigger).toHaveBeenCalledTimes(1)
       })
     })
 
     describe('.delete', () => {
       it('to send a DELETE request', async () => {
+        const callTrigger = jest.fn()
         fetchMock.mockResponseOnce(async (req) => {
           expect(req.method).toEqual('DELETE')
+          callTrigger()
           return ''
         })
 
         await httpRequest.delete('/')
+        expect(callTrigger).toHaveBeenCalledTimes(1)
       })
     })
 
@@ -80,16 +96,19 @@ describe('httpRequest', () => {
       it('to parse an error response to a valid error object', async () => {
         fetchMock.mockResponseOnce(async () => jsonApiUtil.mockRes()['Api::V1::UsersController'].bannedError('Custom ban message.'))
 
+        const callTrigger = jest.fn()
         try {
           // this should throw an error!
           await httpRequest.post<User>('/', { user: { username: 'test-user' } })
-          expect(true).toEqual(false)
+          callTrigger()
         } catch (error) {
           expect(error).toBeInstanceOf(CombinedApiError)
           const combinedError = error as CombinedApiError
           expect(combinedError.firstError.status).toEqual(403)
           expect(combinedError.firstError.errorCode).toEqual('error.api.unauthorized')
           expect(combinedError.firstError.data.message).toEqual('Custom ban message.')
+        } finally {
+          expect(callTrigger).not.toHaveBeenCalled()
         }
       })
     })
