@@ -1,6 +1,6 @@
+import useJwt from '@/core/composables/authentication/use-jwt'
 import ParsingError from '@/core/errors/parsing-error'
 import Jwt from '@/core/models/jwt'
-import Cookies from 'js-cookie'
 import { ref } from 'vue'
 import httpRequest from '../http-request'
 
@@ -21,6 +21,7 @@ export interface User {
 const me = ref<User|undefined>()
 
 const useUser = () => {
+  const jwtComp = useJwt()
   const login = async (username: string, password: string) => {
     const res = await httpRequest.post<Jwt>('/users/jwt', { user: { username, password } })
     const jwt = res.processedBody?.[0]?.jwt
@@ -28,13 +29,18 @@ const useUser = () => {
       throw new ParsingError()
     }
 
-    Cookies.set('knuepf-user-jwt', jwt)
+    jwtComp.setJwt(jwt)
     return jwt
   }
 
   const logout = async () => {
-    await httpRequest.delete<Jwt>('/users/jwt')
-    Cookies.remove('knuepf-user-jwt')
+    try {
+      await httpRequest.delete<Jwt>('/users/jwt')
+      jwtComp.removeJwt()
+    } catch {
+      jwtComp.removeJwt()
+    }
+
     return true
   }
 
