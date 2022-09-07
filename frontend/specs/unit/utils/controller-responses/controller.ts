@@ -7,7 +7,7 @@ type BuildErrorResObjRest = {
 
 class Controller {
   // eslint-disable-next-line class-methods-use-this
-  protected buildRes(body: any = '', status: number = 200, headers: any = undefined): MockResponseInit {
+  protected buildRes(body: any = undefined, status: number = 200, headers: any = undefined): MockResponseInit {
     const mergedHeaders = {
       'X-Frame-Options': 'SAMEORIGIN',
       'X-XSS-Protection': 0,
@@ -20,7 +20,7 @@ class Controller {
     }
 
     return {
-      body: JSON.stringify(body), status, headers: mergedHeaders,
+      body: body ? JSON.stringify(body) : undefined, status, headers: mergedHeaders,
     }
   }
 
@@ -53,6 +53,10 @@ class Controller {
       },
     }
     return this.buildRes(body, rest?.status || 500)
+  }
+
+  protected buildStatusRes(status = 200): MockResponseInit {
+    return this.buildRes(undefined, status)
   }
 }
 
