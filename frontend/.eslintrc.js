@@ -28,11 +28,15 @@ module.exports = {
   overrides: [
     {
       files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)',
+        '**/__specs__/*.{j,t}s?(x)',
+        '**/specs/unit/**/*.{j,t}s?(x)',
+        '**/specs/unit/**/*.spec.{j,t}s?(x)',
       ],
       env: {
         jest: true,
+      },
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
       },
     },
   ],

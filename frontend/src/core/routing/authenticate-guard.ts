@@ -1,14 +1,11 @@
 import { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
-import Cookie from 'js-cookie'
-import httpRequest from '@/api/http-request'
 import useUser from '@/api/composables/use-user'
+import useJwt from '../composables/authentication/use-jwt'
 
 export interface AuthenticateGuardResponse {
   action: 'pass' | 'redirect'
   redirectTo?: RouteLocationRaw
 }
-
-const getJwt = (): string | undefined => Cookie.get('knuepf-user-jwt')
 
 const authenticateGuard = (
   toRoute: RouteLocationNormalized,
@@ -22,8 +19,7 @@ const authenticateGuard = (
     return
   }
 
-  const jwt = getJwt()
-
+  const jwt = useJwt().getJwt()
   if (!jwt) {
     resolve(redirectToLogin)
     return
