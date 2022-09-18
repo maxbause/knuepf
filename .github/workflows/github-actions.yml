@@ -3,6 +3,7 @@ on: [push]
 
 env:
   CI_NODE_VERSION: 17.9.1
+  CI_RUBY_VERSION: 2.7.5
 
 jobs:
   audit-node:
@@ -14,3 +15,13 @@ jobs:
           node-version: ${{ env.CI_NODE_VERSION }}
       - run: npx audit-ci@^6 --config ./audit-ci.jsonc
         working-directory: ./frontend
+  audit-ruby:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby-pkgs@v1
+        with:
+          ruby-version:: ${{ env.CI_RUBY_VERSION }}
+          bundler-cache: true
+      - run: bundle install
+      - run: bundle exec bundle-audit
