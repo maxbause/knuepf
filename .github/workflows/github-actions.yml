@@ -1,6 +1,5 @@
 name: build-ci
 on: [push]
-
 env:
   NODE_VERSION: 17.9.1
 
