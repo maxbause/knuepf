@@ -12,5 +12,5 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.CI_NODE_VERSION }}
-      - run: cd frontend
       - run: npx audit-ci@^6 --config ./audit-ci.jsonc
+        working-directory: ./frontend
