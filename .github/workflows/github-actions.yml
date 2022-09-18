@@ -2,7 +2,7 @@ name: build-ci
 on: [push]
 
 env:
-  NODE_VERSION: 17.9.1
+  CI_NODE_VERSION: 17.9.1
 
 jobs:
   audit-node:
@@ -11,6 +11,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: $NODE_VERSION
+          node-version: ${{ env.CI_NODE_VERSION }}
       - run: cd frontend
       - run: npx audit-ci@^6 --config ./audit-ci.jsonc
